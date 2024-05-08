@@ -13,8 +13,12 @@ export const loginUser = (formData, navigate) => {
       if (!response.ok) {
         throw new Error("Erreur lors du transfert");
       }
-      dispatch(loginSuccess());
-      navigate("/user");   
+      return response.json();
+    })
+    .then(data => {
+      const token = data.body.token;
+      dispatch(loginSuccess({ token }));
+      navigate(`/user?token=${token}`);  
     })
     .catch(error => {
       console.error('Erreur lors du fetch:', error.message); 

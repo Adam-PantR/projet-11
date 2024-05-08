@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Transaction from "../../components/Transaction";
 import { connect } from "react-redux";
 
@@ -10,24 +9,29 @@ export const updateFormData = (formData) => {
   };
 };
 
-function UserTransaction({ formData }) {
-  const [userEmail, setUserEmail] = useState("");
+async function getUser(formData, token) {
+  const response = await fetch("http://localhost:3001/api/v1/user/profile", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(formData),
+  });
+  const user = await response.json();
+  console.log("user : ", user);
+  return user;
+}
+
+function UserTransaction({ formData, token }) {
+  const [userName, setUserName] = useState("");
+  console.log("token récupéré : ", token);
 
   useEffect(() => {
     const fetchUserEmail = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:3001/api/v1/user/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-          }
-        );
-        const data = await response.json();
-        setUserEmail(data.email);
+        const user = await getUser(formData, token);
+        setUserName(user.body.userName); // Accédez à user.body.email pour obtenir l'e-mail de l'utilisateur
       } catch (error) {
         console.error(
           "Erreur lors de la récupération du mail de l'utilisateur:",
@@ -39,16 +43,16 @@ function UserTransaction({ formData }) {
   }, []);
 
   return (
-    <main class="main bg-dark-main">
-      <div class="header">
+    <main className="main bg-dark-main">
+      <div className="header">
         <h1>
           Welcome back
           <br />
-          {userEmail}
+          {userName}
         </h1>
-        <button class="edit-button">Edit Name</button>
+        <button className="edit-button">Edit Name</button>
       </div>
-      <h2 class="sr-only">Accounts</h2>
+      <h2 className="sr-only">Accounts</h2>
       <Transaction
         title="Argent Bank Checking (x8349)"
         amount="$2,082,72"
