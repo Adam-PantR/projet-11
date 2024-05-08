@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import UserTransaction from "../../container/UserTransactions";
+import { logoutSuccess } from "../../script/login";
 
 function UserPage() {
   return (
     <div class="min-height">
       <nav class="main-nav">
-        <Link class="main-nav-logo" to="/Home">
+        <Link class="main-nav-logo" to="/">
           <img
             class="main-nav-logo-image"
             src="./img/argentBankLogo.png"
@@ -19,7 +20,7 @@ function UserPage() {
             <i class="fa fa-user-circle"></i>
             Tony
           </Link>
-          <Link class="main-nav-item" to="/">
+          <Link class="main-nav-item" to="/" onClick={logoutSuccess()}>
             <i class="fa fa-sign-out"></i>
             Sign Out
           </Link>

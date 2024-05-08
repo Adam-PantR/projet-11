@@ -1,27 +1,33 @@
+import { loginSuccess } from "./login";
+
 export const signUpUser = (formData) => {
-    return async (dispatch) => {
-        try {
-            const url = "http://localhost:3001/api/v1/user/signup";
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(formData)
-            });
-
+    return (dispatch) => {
+        const url = "http://localhost:3001/api/v1/user/signup";
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        }) 
+        .then(response => {
             if (!response.ok) {
-                throw new Error("Erreur lors du transfert");
+              throw new Error("Erreur lors du transfert");
             }
-
-            const data = await response.json();
-            dispatch(signUpSuccess(data));
-        } catch (error) {
-            console.error('Erreur lors du fetch:', error.message); // Ajout du console.error
+            return response.json(); 
+          })
+          .then(data => {
+            dispatch(signUpSuccess(data)); 
+            dispatch(loginSuccess());
+          })
+          .catch (error => {
+            console.error('Erreur lors du fetch:', error.message); 
             dispatch(signUpFailure(error.message));
-        }
+          });
     };
 };
+
+
 
 export const signUpSuccess = (userData) => ({
     type: 'SIGN_UP_SUCCESS',

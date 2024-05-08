@@ -1,5 +1,6 @@
 const initialState = {
   isAuthenticated: false,
+  redirectTo : null,
 };
 
 const loginReducer = (state = initialState, action) => {

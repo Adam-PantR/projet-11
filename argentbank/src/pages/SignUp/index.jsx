@@ -1,47 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { signUpUser } from "../../script/signup";
 
 function SignUp({ signUpUser }) {
-  function signupData() {
-    const email = document.getElementById("email").value;
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-    const firstname = document.getElementById("firstname").value;
-    const lastname = document.getElementById("lastname").value;
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userName, setUsername] = useState("");
+  const [lastName, setLastname] = useState("");
+  const [firstName, setFirstname] = useState("");
 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+  const handleUserNameChange = (e) => {
+    setUsername(e.target.value);
+  };
+  const handleFirstNameChange = (e) => {
+    setFirstname(e.target.value);
+  };
+  const handleLastNameChange = (e) => {
+    setLastname(e.target.value);
+  };
+
+  const signUpData = (e) => {
+    e.preventDefault();
     if (email === "") {
       alert("Il faut ajouter un email");
       return;
     }
-    if (username === "") {
-      alert("Il  faut ajouter un username");
-      return;
-    }
     if (password === "") {
-      alert("Il faut ajouter mot de passe");
+      alert("Il faut ajouter un mot de passe");
       return;
     }
-    if (firstname === "") {
-      alert("Il faut ajouter prenom");
+    if (userName === "") {
+      alert("Il faut ajouter un nom d'utilisateur");
       return;
     }
-    if (lastname === "") {
+    if (firstName === "") {
+      alert("Il faut ajouter un prénom");
+      return;
+    }
+    if (lastName === "") {
       alert("Il faut ajouter un nom");
       return;
     }
+
     const formData = {
       email,
       password,
-      firstName: firstname,
-      lastName: lastname,
-      userName: username,
+      firstName,
+      lastName,
+      userName,
     };
-    // Envoie des informations en POST
     console.log(formData);
     signUpUser(formData);
-  }
+  };
   return (
     <div class="min-height">
       <nav className="main-nav">
@@ -67,29 +84,45 @@ function SignUp({ signUpUser }) {
           <form>
             <div className="input-wrapper">
               <label htmlFor="username">Email</label>
-              <input type="text" id="email" />
+              <input type="text" id="email" onChange={handleEmailChange} />
             </div>
             <div className="input-wrapper">
               <label htmlFor="username">Username</label>
-              <input type="text" id="username" />
+              <input
+                type="text"
+                id="username"
+                onChange={handleUserNameChange}
+              />
             </div>
             <div className="input-wrapper">
               <label htmlFor="password">Password</label>
-              <input type="password" id="password" />
+              <input
+                type="password"
+                id="password"
+                onChange={handlePasswordChange}
+              />
             </div>
             <div className="input-wrapper">
               <label htmlFor="username">First Name</label>
-              <input type="text" id="firstname" />
+              <input
+                type="text"
+                id="firstname"
+                onChange={handleFirstNameChange}
+              />
             </div>
             <div className="input-wrapper">
               <label htmlFor="username">Last Name</label>
-              <input type="text" id="lastname" />
+              <input
+                type="text"
+                id="lastname"
+                onChange={handleLastNameChange}
+              />
             </div>
             <div className="input-remember">
               <input type="checkbox" id="remember-me" />
               <label htmlFor="remember-me">Remember me</label>
             </div>
-            <button className="sign-in-button" onClick={signupData}>
+            <button className="sign-in-button" onClick={signUpData}>
               Sign Up
             </button>
           </form>
@@ -101,9 +134,11 @@ function SignUp({ signUpUser }) {
     </div>
   );
 }
-
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
 const mapDispatchToProps = {
   signUpUser,
 };
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

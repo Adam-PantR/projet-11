@@ -17,13 +17,19 @@ function Home({ isAuthenticated }) {
           <h1 className="sr-only">Argent Bank</h1>
         </Link>
         <div className="main-nav-item">
-          <i className="fa fa-user-circle"></i>
           {isAuthenticated ? (
-            <Link to="/" onClick={logoutSuccess()}>
-              Log out
-            </Link>
+            <div>
+              <i className="fa fa-user-circle"></i>
+              <Link to="/user">Profile</Link>
+              <Link to="/" onClick={logoutSuccess()}>
+                Log out
+              </Link>
+            </div>
           ) : (
-            <Link to="/login">Log in</Link>
+            <div>
+              <i className="fa fa-user-circle"></i>
+              <Link to="/login">Log in</Link>
+            </div>
           )}
         </div>
       </nav>

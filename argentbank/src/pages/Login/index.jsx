@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { loginUser } from "../../script/login";
-import { useNavigate } from "react-router-dom";
 
 function Login({ loginUser, isAuthenticated }) {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -17,7 +16,7 @@ function Login({ loginUser, isAuthenticated }) {
     setPassword(e.target.value);
   };
 
-  const handleLogin = (e) => {
+  const loginData = async (e) => {
     e.preventDefault();
     if (email === "") {
       alert("Il faut ajouter un email");
@@ -32,16 +31,14 @@ function Login({ loginUser, isAuthenticated }) {
       password,
       email,
     };
-
-    // Dispatch de l'action loginUser
-    loginUser(formData)
-      .then(() => {
-        navigate("/home");
-      })
-      .catch((error) => {
-        console.error("Erreur lors de la connexion:", error.message);
-        alert("Email ou Mot de passe incorrect");
-      });
+    console.log(formData);
+    try {
+      await loginUser(formData);
+      navigate("/");
+    } catch (error) {
+      console.error("Erreur lors de la connexion:", error.message);
+      alert("Email ou Mot de passe incorrect");
+    }
   };
 
   return (
@@ -66,7 +63,7 @@ function Login({ loginUser, isAuthenticated }) {
         <section className="sign-in-content">
           <i className="fa fa-user-circle sign-in-icon"></i>
           <h1>Sign In</h1>
-          <form onSubmit={handleLogin}>
+          <form>
             <div className="input-wrapper">
               <label htmlFor="username">Email</label>
               <input type="text" id="username" onChange={handleEmailChange} />
@@ -83,7 +80,7 @@ function Login({ loginUser, isAuthenticated }) {
               <input type="checkbox" id="remember-me" />
               <label htmlFor="remember-me">Remember me</label>
             </div>
-            <button type="submit" className="sign-in-button">
+            <button className="sign-in-button" onClick={loginData}>
               Sign In
             </button>
           </form>
