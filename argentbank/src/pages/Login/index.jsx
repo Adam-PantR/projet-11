@@ -31,10 +31,8 @@ function Login({ loginUser, isAuthenticated }) {
       password,
       email,
     };
-    console.log(formData);
     try {
-      await loginUser(formData);
-      navigate("/");
+      await loginUser(formData, navigate);
     } catch (error) {
       console.error("Erreur lors de la connexion:", error.message);
       alert("Email ou Mot de passe incorrect");

@@ -1,6 +1,5 @@
+export const loginUser = (formData, navigate) => { 
 
-
-export const loginUser = (formData) => { 
   return (dispatch) => {
     const url = "http://localhost:3001/api/v1/user/login";
     fetch(url, {
@@ -15,7 +14,8 @@ export const loginUser = (formData) => {
         throw new Error("Erreur lors du transfert");
       }
       dispatch(loginSuccess());
-      console.log(response);   
+      console.log(response);
+      navigate("/");   
     })
     .catch(error => {
       console.error('Erreur lors du fetch:', error.message); 
@@ -25,8 +25,9 @@ export const loginUser = (formData) => {
   };
 };
 
-export const loginSuccess = () => ({
+export const loginSuccess = (userData) => ({
   type: 'LOGIN',
+  payload: userData
 });
 
 export const logoutSuccess = () => ({
