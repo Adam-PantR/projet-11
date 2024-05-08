@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { loginUser } from "../../script/login";
+import { updateFormData } from "../../container/UserTransactions";
 
-function Login({ loginUser, isAuthenticated }) {
+function Login({ loginUser, isAuthenticated, updateFormData }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ function Login({ loginUser, isAuthenticated }) {
     };
     try {
       await loginUser(formData, navigate);
+      updateFormData(formData);
     } catch (error) {
       console.error("Erreur lors de la connexion:", error.message);
       alert("Email ou Mot de passe incorrect");
@@ -98,6 +100,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   loginUser,
+  updateFormData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

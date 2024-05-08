@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { signUpUser } from "../../script/signup";
 
 function SignUp({ signUpUser }) {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUsername] = useState("");
@@ -26,7 +27,7 @@ function SignUp({ signUpUser }) {
     setLastname(e.target.value);
   };
 
-  const signUpData = (e) => {
+  const signUpData = async (e) => {
     e.preventDefault();
     if (email === "") {
       alert("Il faut ajouter un email");
@@ -50,14 +51,19 @@ function SignUp({ signUpUser }) {
     }
 
     const formData = {
-      email,
-      password,
-      firstName,
-      lastName,
-      userName,
+      email: email,
+      password: password,
+      firstName: firstName,
+      lastName: lastName,
+      userName: userName,
     };
-    console.log(formData);
-    signUpUser(formData);
+    try {
+      console.log(formData);
+      await signUpUser(formData, navigate);
+    } catch (error) {
+      console.error("Erreur lors de la connexion:", error.message);
+      alert("Email ou Mot de passe incorrect");
+    }
   };
   return (
     <div class="min-height">

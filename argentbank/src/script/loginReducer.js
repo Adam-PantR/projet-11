@@ -1,6 +1,11 @@
 const initialState = {
   isAuthenticated: false,
-  redirectTo : null,
+  formData: {
+    email: '',
+    password: '',
+  },
+  error: null,
+userData: null
 };
 
 const loginReducer = (state = initialState, action) => {
@@ -15,6 +20,23 @@ const loginReducer = (state = initialState, action) => {
               ...state,
               isAuthenticated: false,
           };
+      case 'UPDATE_FORM_DATA':
+          return {
+              ...state,
+              formData: action.payload,
+          };
+      case 'SIGN_UP_SUCCESS':
+            return {
+                ...state,
+                userData: action.payload,
+                error: null
+            };
+        case 'SIGN_UP_FAILURE':
+            return {
+                ...state,
+                userData: null,
+                error: action.payload
+            };
       default:
           return state;
   }

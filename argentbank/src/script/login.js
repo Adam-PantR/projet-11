@@ -14,8 +14,7 @@ export const loginUser = (formData, navigate) => {
         throw new Error("Erreur lors du transfert");
       }
       dispatch(loginSuccess());
-      console.log(response);
-      navigate("/");   
+      navigate("/user");   
     })
     .catch(error => {
       console.error('Erreur lors du fetch:', error.message); 

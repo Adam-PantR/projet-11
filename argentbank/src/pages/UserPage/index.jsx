@@ -1,12 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import UserTransaction from "../../container/UserTransactions";
 import { logoutSuccess } from "../../script/login";
-import { useUser } from "../../script/userContext";
 
 function UserPage() {
-  const { user } = useUser();
-
+  const { email, password } = useParams();
   return (
     <div className="min-height">
       <nav className="main-nav">
@@ -21,7 +19,7 @@ function UserPage() {
         <div>
           <Link className="main-nav-item" to="/user">
             <i className="fa fa-user-circle"></i>
-            {user ? user.username : "Loading..."} {}
+            {email}
           </Link>
           <Link className="main-nav-item" to="/" onClick={logoutSuccess()}>
             <i className="fa fa-sign-out"></i>
