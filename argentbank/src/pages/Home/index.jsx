@@ -45,13 +45,6 @@ function Home({ isAuthenticated }) {
             </p>
           </div>
         </section>
-        <div>
-          {isAuthenticated ? (
-            <p>Bienvenue, vous êtes connecté !</p>
-          ) : (
-            <p>Veuillez vous connecter</p>
-          )}
-        </div>
         <Features />
       </main>
       <footer className="footer">

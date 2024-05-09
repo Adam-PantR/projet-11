@@ -16,6 +16,7 @@ export const loginUser = (formData, navigate) => {
       return response.json();
     })
     .then(data => {
+      console.log("test" + data)
       const token = data.body.token;
       dispatch(loginSuccess({ token }));
       navigate(`/user?token=${token}`);  

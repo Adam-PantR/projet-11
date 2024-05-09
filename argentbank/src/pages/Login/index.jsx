@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { loginUser } from "../../script/login";
 import { updateFormData } from "../../container/UserTransactions";
 
-function Login({ loginUser, isAuthenticated, updateFormData }) {
+function Login({ loginUser, updateFormData }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -76,15 +76,10 @@ function Login({ loginUser, isAuthenticated, updateFormData }) {
                 onChange={handlePasswordChange}
               />
             </div>
-            <div className="input-remember">
-              <input type="checkbox" id="remember-me" />
-              <label htmlFor="remember-me">Remember me</label>
-            </div>
             <button className="sign-in-button" onClick={loginData}>
               Sign In
             </button>
           </form>
-          {isAuthenticated ? <div>Log out</div> : <div>Log in</div>}
         </section>
       </main>
       <footer className="footer">

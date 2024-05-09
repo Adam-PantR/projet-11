@@ -61,7 +61,7 @@ body {
   color: #42b983;
 }
 
-.main-nav-item a {
+.main-nav-item  {
   text-decoration: none !important;
   margin-right: 0.5rem !important;
 }
@@ -179,6 +179,25 @@ body {
   border: none;
 }
 
+.hidden-form{
+  display: none;
+}
+
+.sign-in-button-user {
+  display: flex;
+  width: 40.556%;
+  padding: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  background-color: #00bc77;
+  color: #fff;
+  border: none;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+}
+
 .sign-in-content {
   box-sizing: border-box;
   background-color: white;
@@ -205,6 +224,21 @@ body {
   flex-direction: column;
   text-align: left;
   margin-bottom: 1rem;
+}
+
+.input-wrapper-user {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 1rem;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.input-wrapper-user input {
+  width: 40%;
+  padding: 5px;
+  font-size: 1.2rem;
 }
 
 .input-wrapper label {
@@ -271,6 +305,19 @@ body {
   color: #fff;
   font-weight: bold;
   padding: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.close-edit-button {
+  border-color: #00bc77;
+  background-color: #00bc77;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .header {

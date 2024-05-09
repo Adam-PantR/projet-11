@@ -1,19 +1,18 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
 
-function Transaction(props) { 
-    return (
-            <section class="account">
-                <div class="account-content-wrapper">
-                <h3 class="account-title">{props.title}</h3>
-                <p class="account-amount">{props.amount}</p>
-                <p class="account-amount-description">{props.description}</p>
-                </div>
-                <div class="account-content-wrapper cta">
-                <button class="transaction-button">View transactions</button>
-                </div>
-            </section>
-    )
+function Transaction(props) {
+  return (
+    <section className="account">
+      <div className="account-content-wrapper">
+        <h3 className="account-title">{props.title}</h3>
+        <p className="account-amount">{props.amount}</p>
+        <p className="account-amount-description">{props.description}</p>
+      </div>
+      <div className="account-content-wrapper cta">
+        <button className="transaction-button">View transactions</button>
+      </div>
+    </section>
+  );
 }
 
 export default Transaction;

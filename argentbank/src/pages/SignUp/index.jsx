@@ -66,7 +66,7 @@ function SignUp({ signUpUser }) {
     }
   };
   return (
-    <div class="min-height">
+    <div className="min-height">
       <nav className="main-nav">
         <Link className="main-nav-logo" to="/">
           <img
@@ -123,10 +123,6 @@ function SignUp({ signUpUser }) {
                 id="lastname"
                 onChange={handleLastNameChange}
               />
-            </div>
-            <div className="input-remember">
-              <input type="checkbox" id="remember-me" />
-              <label htmlFor="remember-me">Remember me</label>
             </div>
             <button className="sign-in-button" onClick={signUpData}>
               Sign Up
