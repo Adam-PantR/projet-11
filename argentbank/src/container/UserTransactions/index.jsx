@@ -16,6 +16,15 @@ export const userNameUpdate = (userName) => ({
   payload: userName,
 });
 
+export const userFirstName = (firstName) => ({
+  type: "UPDATE_FIRST_NAME",
+  payload: firstName,
+});
+export const userLastName = (lastName) => ({
+  type: "UPDATE_LAST_NAME",
+  payload: lastName,
+});
+
 async function getUser(formData, token, dispatch) {
   const response = await fetch("http://localhost:3001/api/v1/user/profile", {
     method: "POST",
@@ -26,13 +35,25 @@ async function getUser(formData, token, dispatch) {
     body: JSON.stringify(formData),
   });
   const user = await response.json();
+  console.log(user);
   dispatch(userNameUpdate(user.body.userName));
+  dispatch(userFirstName(user.body.firstName));
+  dispatch(userLastName(user.body.lastName));
   return user;
 }
 
-function UserTransaction({ formData, token, user, dispatch }) {
+function UserTransaction({
+  formData,
+  token,
+  user,
+  dispatch,
+  firstName,
+  lastName,
+}) {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
+  console.log("firstName : " + firstName);
+  console.log("lastName : " + lastName);
 
   const handleUserNameChange = (e) => {
     setUserName(e.target.value);
@@ -127,7 +148,7 @@ function UserTransaction({ formData, token, user, dispatch }) {
     const closeEditButton = document.querySelector(".close-edit-button");
     closeEditButton.style.display = "none";
     alert("Modifications annulées");
-    userReset(); // Utiliser la fonction userReset sans paramètres
+    userReset();
   };
 
   return (
@@ -146,8 +167,16 @@ function UserTransaction({ formData, token, user, dispatch }) {
         </button>
         <form className="hidden-form">
           <div className="input-wrapper-user">
-            <label htmlFor="username">Nouvel UserName</label>
+            <label htmlFor="username">UserName</label>
             <input type="text" id="username" onChange={handleUserNameChange} />
+          </div>
+          <div className="input-wrapper-name">
+            <label htmlFor="username">Prénom</label>
+            <input type="text" value={firstName} readonly />
+          </div>
+          <div className="input-wrapper-name">
+            <label htmlFor="username">Nom</label>
+            <input type="text" value={lastName} readonly />
           </div>
           <div className="div-modal">
             <button className="sign-in-button-user" onClick={userData}>
@@ -183,6 +212,8 @@ const mapStateToProps = (state) => ({
   formData: state.auth.formData,
   user: state.auth.user,
   token: state.auth.token,
+  firstName: state.auth.firstName,
+  lastName: state.auth.lastName,
 });
 
 export default connect(mapStateToProps)(UserTransaction);

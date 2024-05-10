@@ -249,17 +249,50 @@ body {
 
 .input-wrapper-user {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  margin-bottom: 1rem;
+  align-items: center;
+  margin-top: 15px;
+  position: relative;
+  width: 20%;
+  margin-right: auto;
+  margin-left: auto;
+}
+.input-wrapper-user label {
+  position: absolute;
+  left: -25px;
+}
+.input-wrapper-name label {
+  position: absolute;
+  left: -25px;
+}
+.input-wrapper-name {
+  display: flex;
+  position: relative;
+  flex-direction: row;
   text-align: left;
   margin-bottom: 1rem;
   align-items: center;
   margin-top: 15px;
+  gap: 20px;
+  width: 20%;
+  margin-right: auto;
+  margin-left: auto;
+}
+.input-wrapper-name input{
+  padding: 5px;
+  font-size: 1.2rem;
+  background-color: rgb(219, 219, 219);
+  border-radius: 5px;
+  margin-left: 75px;
+  
 }
 
 .input-wrapper-user input {
-  width: 40%;
   padding: 5px;
   font-size: 1.2rem;
+  border-radius: 5px;
+  margin-left: 75px;
 }
 
 .input-wrapper label {

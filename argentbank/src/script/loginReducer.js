@@ -45,6 +45,16 @@ const initialState = {
               ...state,
               user: action.payload,
           }
+        case 'UPDATE_FIRST_NAME':
+          return {
+              ...state,
+              firstName: action.payload,
+          }
+        case 'UPDATE_LAST_NAME':
+          return {
+              ...state,
+              lastName: action.payload,
+          }
       case 'UPDATE_TOKEN':
           return {
               ...state,
