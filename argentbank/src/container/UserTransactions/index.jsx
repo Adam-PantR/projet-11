@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Transaction from "../../components/Transaction";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import getUserPage from "../../pages/UserPage/index";
 
 export const updateFormData = (formData) => {
   return {
@@ -11,7 +11,12 @@ export const updateFormData = (formData) => {
   };
 };
 
-async function getUser(formData, token) {
+export const userNameUpdate = (userName) => ({
+  type: "UPDATE_USERNAME",
+  payload: userName,
+});
+
+async function getUser(formData, token, dispatch) {
   const response = await fetch("http://localhost:3001/api/v1/user/profile", {
     method: "POST",
     headers: {
@@ -21,10 +26,11 @@ async function getUser(formData, token) {
     body: JSON.stringify(formData),
   });
   const user = await response.json();
+  dispatch(userNameUpdate(user.body.userName));
   return user;
 }
 
-function UserTransaction({ formData, token, getUserPage }) {
+function UserTransaction({ formData, token, user, dispatch }) {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
 
@@ -35,7 +41,7 @@ function UserTransaction({ formData, token, getUserPage }) {
   useEffect(() => {
     const fetchUserEmail = async () => {
       try {
-        const user = await getUser(formData, token);
+        const user = await getUser(formData, token, dispatch);
         setUserName(user.body.userName);
       } catch (error) {
         console.error(
@@ -51,7 +57,6 @@ function UserTransaction({ formData, token, getUserPage }) {
     e.preventDefault();
     try {
       await userSettings(token, userName);
-      await getUserPage(token, userName);
     } catch (error) {
       console.error(
         "Erreur lors du changement de nom d'utilisateur:",
@@ -60,9 +65,12 @@ function UserTransaction({ formData, token, getUserPage }) {
     }
   };
 
+  const userReset = () => {
+    setUserName(user);
+  };
+
   async function userSettings(token, userName) {
-    console.log(userName + "  " + token);
-    if (userName === setUserName || userName === "") {
+    if (!userName || userName === "") {
       alert("Il faut ajouter un email");
       return;
     } else {
@@ -80,9 +88,8 @@ function UserTransaction({ formData, token, getUserPage }) {
           throw new Error("Erreur lors de la mise à jour de l'utilisateur");
         }
         const data = await response.json();
-        console.log(data);
+        dispatch(userNameUpdate(userName));
         alert("Le UserName a bien été modifié");
-        window.location.reload();
         return data;
       } catch (error) {
         console.error(
@@ -112,6 +119,17 @@ function UserTransaction({ formData, token, getUserPage }) {
     closeEditButton.style.display = "none";
   };
 
+  const cancelModal = () => {
+    const hiddenForm = document.querySelector(".hidden-form");
+    hiddenForm.style.display = "none";
+    const editButton = document.querySelector(".edit-button");
+    editButton.style.display = "block";
+    const closeEditButton = document.querySelector(".close-edit-button");
+    closeEditButton.style.display = "none";
+    alert("Modifications annulées");
+    userReset(); // Utiliser la fonction userReset sans paramètres
+  };
+
   return (
     <main className="main bg-dark-main">
       <div className="header">
@@ -120,18 +138,10 @@ function UserTransaction({ formData, token, getUserPage }) {
           <br />
           {userName}
         </h1>
-        <button
-          className="edit-button"
-          // onClick={() => userSettings(token, userName)}
-          onClick={openModal}
-        >
+        <button className="edit-button" onClick={openModal}>
           Edit Name
         </button>
-        <button
-          className="close-edit-button"
-          // onClick={() => userSettings(token, userName)}
-          onClick={closeModal}
-        >
+        <button className="close-edit-button" onClick={closeModal}>
           Close Edit Name
         </button>
         <form className="hidden-form">
@@ -139,9 +149,14 @@ function UserTransaction({ formData, token, getUserPage }) {
             <label htmlFor="username">Nouvel UserName</label>
             <input type="text" id="username" onChange={handleUserNameChange} />
           </div>
-          <button className="sign-in-button-user" onClick={userData}>
-            Modifier le Username
-          </button>
+          <div className="div-modal">
+            <button className="sign-in-button-user" onClick={userData}>
+              Modifier le Username
+            </button>
+            <div className="cancel-button-user" onClick={cancelModal}>
+              Annuler
+            </div>
+          </div>
         </form>
       </div>
       <h2 className="sr-only">Accounts</h2>
@@ -166,6 +181,8 @@ function UserTransaction({ formData, token, getUserPage }) {
 
 const mapStateToProps = (state) => ({
   formData: state.auth.formData,
+  user: state.auth.user,
+  token: state.auth.token,
 });
 
 export default connect(mapStateToProps)(UserTransaction);

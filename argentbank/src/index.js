@@ -7,8 +7,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import authReducer from './script/loginReducer';
 
-// import 'font-awesome/css/font-awesome.min.css';
-
 const store = configureStore({
   reducer: {
     auth: authReducer,

@@ -1,40 +1,10 @@
-import { React, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import UserTransaction from "../../container/UserTransactions";
-import { logoutSuccess } from "../../script/login";
-import { useSelector, connect } from "react-redux";
+import { logoutSuccess, loginSuccess } from "../../script/login";
+import { connect } from "react-redux";
 
-function UserPage() {
-  const location = useLocation();
-  const token = new URLSearchParams(location.search).get("token");
-  const [userName, setUserName] = useState(""); // Utilisation de useState
-
-  // Utiliser useSelector pour obtenir formData
-  const formData = useSelector((state) => state.auth.formData);
-
-  async function getUserPage(formData, token) {
-    const response = await fetch("http://localhost:3001/api/v1/user/profile", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(formData),
-    });
-    const user = await response.json();
-
-    if (user.body && user.body.userName) {
-      setUserName(user.body.userName);
-    } else {
-      console.error("La réponse JSON ne contient pas de propriété 'userName'");
-    }
-
-    console.log("user : ", user);
-    return user;
-  }
-
-  getUserPage(formData, token);
-
+function UserPage({ userName, token }) {
   return (
     <div className="min-height">
       <nav className="main-nav">
@@ -51,7 +21,7 @@ function UserPage() {
             <i className="fa fa-user-circle"></i>
             {userName}
           </Link>
-          <Link className="main-nav-item" to="/" onClick={logoutSuccess}>
+          <Link className="main-nav-item" to="/" onClick={logoutSuccess()}>
             <i className="fa fa-sign-out"></i>
             Sign Out
           </Link>
@@ -67,6 +37,13 @@ function UserPage() {
 
 const mapStateToProps = (state) => ({
   formData: state.auth.formData,
+  token: state.auth.token,
+  userName: state.auth.user,
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps)(UserPage);
+const mapDispatchToProps = {
+  logoutSuccess,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

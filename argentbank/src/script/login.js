@@ -16,10 +16,10 @@ export const loginUser = (formData, navigate) => {
       return response.json();
     })
     .then(data => {
-      console.log("test" + data)
       const token = data.body.token;
-      dispatch(loginSuccess({ token }));
-      navigate(`/user?token=${token}`);  
+      dispatch(updateToken(token))
+      dispatch(loginSuccess());
+      navigate("/user");  
     })
     .catch(error => {
       console.error('Erreur lors du fetch:', error.message); 
@@ -41,3 +41,9 @@ export const logoutSuccess = () => ({
 export const loginFailure = () => ({
   type: 'LOG IN FAILED',
 });
+
+export const updateToken = (token) => ({
+  type: "UPDATE_TOKEN",
+  payload: token,
+});
+

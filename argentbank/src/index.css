@@ -85,7 +85,7 @@ body {
 }
 
 .hero {
-  background-image: url('../public/img/bank-tree.jpeg');
+  background-image: url('../public/img/bank-tree.webp');
   background-position: 0 -50px;
   background-size: cover;
   background-repeat: no-repeat;
@@ -182,7 +182,13 @@ body {
 .hidden-form{
   display: none;
 }
-
+.div-modal{
+  display: flex;
+  width: 40%;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+}
 .sign-in-button-user {
   display: flex;
   width: 40.556%;
@@ -191,6 +197,21 @@ body {
   font-weight: bold;
   margin-top: 1rem;
   background-color: #00bc77;
+  color: #fff;
+  border: none;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+}
+
+.cancel-button-user{
+  display: flex;
+  width: 40.556%;
+  padding: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  background-color: red;
   color: #fff;
   border: none;
   margin-left: auto;

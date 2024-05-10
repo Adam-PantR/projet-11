@@ -52,12 +52,6 @@ function Login({ loginUser, updateFormData }) {
           />
           <h1 className="sr-only">Argent Bank</h1>
         </Link>
-        <div>
-          <Link className="main-nav-item" to="/Signup">
-            <i className="fa fa-user-circle"></i>
-            Sign up
-          </Link>
-        </div>
       </nav>
       <main className="main bg-dark-main ">
         <section className="sign-in-content">
