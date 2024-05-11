@@ -110,6 +110,7 @@ function UserTransaction({
         }
         const data = await response.json();
         dispatch(userNameUpdate(userName));
+        closeModal();
         alert("Le UserName a bien été modifié");
         return data;
       } catch (error) {
@@ -172,11 +173,11 @@ function UserTransaction({
           </div>
           <div className="input-wrapper-name">
             <label htmlFor="username">Prénom</label>
-            <input type="text" value={firstName} readonly />
+            <input type="text" value={firstName} readOnly />
           </div>
           <div className="input-wrapper-name">
             <label htmlFor="username">Nom</label>
-            <input type="text" value={lastName} readonly />
+            <input type="text" value={lastName} readOnly />
           </div>
           <div className="div-modal">
             <button className="sign-in-button-user" onClick={userData}>
